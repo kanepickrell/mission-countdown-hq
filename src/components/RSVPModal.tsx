@@ -8,6 +8,7 @@ import { Loader2, CheckCircle2, Download } from "lucide-react";
 import { toast } from "sonner";
 import { createRSVP, type User } from "@/lib/supabase";
 import QRCode from "qrcode";
+import { buildAndDownloadPoster } from "@/lib/poster";
 
 interface RSVPModalProps {
   open: boolean;
@@ -128,6 +129,8 @@ const RSVPModal = ({ open, onOpenChange, referralCode }: RSVPModalProps) => {
                     Share this code to recruit your team!<br />
                     Every signup through your code increases your leaderboard rank.
                   </p>
+
+                  {/* Existing QR download */}
                   <Button
                     onClick={downloadQRCode}
                     variant="outline"
@@ -136,8 +139,29 @@ const RSVPModal = ({ open, onOpenChange, referralCode }: RSVPModalProps) => {
                     <Download className="w-4 h-4 mr-2" />
                     Download QR Code
                   </Button>
+
+                  {/* NEW: Poster download with user-specific QR */}
+                  <Button
+                    onClick={() =>
+                      buildAndDownloadPoster({
+                        referralCode: newUser.referral_code,
+                        // optional overrides if you need to fine-tune placement/sizing:
+                        posterUrl: "/countdown_base.png", // your base poster (no QR) in /public
+                        qrSize: 420,                       // adjust once to fit the box
+                        qrX: 84,                           // left offset (px)
+                        qrY: 1420,                         // top offset (px)
+                        fileName: `countdown-invite-${newUser.referral_code}.png`,
+                      })
+                    }
+                    variant="outline"
+                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download Share Poster (PNG)
+                  </Button>
                 </div>
               )}
+
             </div>
 
             <div className="bg-background/60 p-4 rounded-lg border border-secondary/20">

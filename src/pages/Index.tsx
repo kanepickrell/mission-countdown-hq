@@ -8,6 +8,52 @@ import RSVPModal from "@/components/RSVPModal";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getLeaderboard, getTotalUsers, getUserByReferralCode, type User } from "@/lib/supabase";
 
+// Add this tiny component near the top of the file (above Index)
+const TopSecretStrip = ({ position = "top" }: { position?: "top" | "bottom" }) => (
+  <div
+    className={[
+      "w-full z-50 select-none",
+      position === "top" ? "sticky top-0" : ""
+    ].join(" ")}
+    aria-label="Document classification: TOP SECRET"
+  >
+    {/* thin rule */}
+    <div className="h-0.5 w-full bg-destructive/70" />
+    {/* red band */}
+    <div className="relative bg-destructive text-destructive-foreground">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="flex items-center justify-between py-2 md:py-2.5 font-mono">
+          <span className="text-[10px] md:text-xs tracking-[0.25em] opacity-80">
+            AUTHORIZED PERSONNEL ONLY
+          </span>
+          <span className="text-base md:text-xl font-extrabold tracking-[0.35em]">
+            TOP&nbsp;SECRET
+          </span>
+          <span className="text-[10px] md:text-xs tracking-[0.25em] opacity-80">
+            HANDLE VIA SECURE CHANNELS
+          </span>
+        </div>
+      </div>
+
+      {/* stamp overlay */}
+      <span
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
+        aria-hidden="true"
+      >
+        <span className="rotate-[-6deg] border-2 border-destructive-foreground/60 text-destructive-foreground/70
+                          px-3 py-1 font-display text-xs md:text-sm tracking-[0.25em]
+                          bg-destructive/10 backdrop-blur-[1px]">
+          NOFORN // EYES ONLY
+        </span>
+      </span>
+    </div>
+    {/* thin rule */}
+    <div className="h-0.5 w-full bg-destructive/70" />
+  </div>
+);
+
+
+
 const Index = () => {
   const [searchParams] = useSearchParams();
   const referralCode = searchParams.get("ref") || undefined;
@@ -47,17 +93,17 @@ const Index = () => {
 
   const missionCards = [
     { icon: Lock, title: "ESCAPE ROOM", description: "Crack codes. Solve puzzles. Beat the clock." },
-    { icon: Gamepad2, title: "EPIC GAMES", description: "Compete for glory. Win exclusive prizes." },
-    { icon: Pizza, title: "FUEL STATION", description: "Free food all night. Zero cost to you." },
-    { icon: Gift, title: "W.E. CHAOS", description: "Swap gifts, steal prizes, pure chaos." },
+    { icon: Gamepad2, title: "EPIC GAMES", description: "Compete for glory. Earn team points" },
+    { icon: Pizza, title: "FUEL STATION", description: "Dinner & Snacks Provided. Zero cost to you." },
+    { icon: Gift, title: "WHITE ELEPHANT", description: "Swap gifts, steal prizes, pure chaos." },
   ];
 
   const timeline = [
     { time: "18:00", civilianTime: "6:00 PM", event: "Arrival & Dinner" },
     { time: "18:30", civilianTime: "6:30 PM", event: "Worship & Briefing" },
-    { time: "19:00", civilianTime: "7:00 PM", event: "Escape Room Rotations" },
-    { time: "21:00", civilianTime: "9:00 PM", event: "White Elephant" },
-    { time: "21:30", civilianTime: "9:30 PM", event: "Extraction (Pickup)" },
+    { time: "19:00", civilianTime: "7:00 PM", event: "Escape Room Rotations + Mini Games" },
+    { time: "21:15", civilianTime: "9:15 PM", event: "White Elephant" },
+    { time: "22:00", civilianTime: "10:00 PM", event: "Extraction (Pickup)" },
   ];
 
   const essentialInfo = [
@@ -94,6 +140,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <TopSecretStrip position="top" />
+
       {/* HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center tech-grid scanline">
         <div className="absolute inset-0 bg-gradient-radial from-card/50 to-transparent"></div>
@@ -109,17 +157,17 @@ const Index = () => {
           )}
 
           <div className="mb-6">
-            <span className="text-primary text-sm md:text-base font-display tracking-[0.3em] uppercase">
-              Mission Briefing
+            <span className="text-primary text-s md:text-base font-display tracking-[0.3em] uppercase">
+              X-MAS Mission Briefing
             </span>
           </div>
 
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-extrabold text-foreground mb-4 tracking-tight">
-            COUNTDOWN
+            ARRIVAL 2025
           </h1>
 
           <p className="text-primary text-xl md:text-2xl lg:text-3xl font-display tracking-wider mb-12">
-            HOPE HAS ARRIVED
+            HOPE IS COMING
           </p>
 
           <CountdownTimer />
