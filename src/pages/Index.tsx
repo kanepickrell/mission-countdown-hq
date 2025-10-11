@@ -1,12 +1,320 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { ChevronDown, Lock, Gamepad2, Pizza, Gift, Users, Clock, Trophy, Calendar } from "lucide-react";
+import CountdownTimer from "@/components/CountdownTimer";
+import RSVPModal from "@/components/RSVPModal";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const Index = () => {
+  const [rsvpModalOpen, setRsvpModalOpen] = useState(false);
+
+  const missionCards = [
+    { icon: Lock, title: "ESCAPE ROOM", description: "Crack codes. Solve puzzles. Beat the clock." },
+    { icon: Gamepad2, title: "EPIC GAMES", description: "Compete for glory. Win exclusive prizes." },
+    { icon: Pizza, title: "FUEL STATION", description: "Free food all night. Zero cost to you." },
+    { icon: Gift, title: "W.E. CHAOS", description: "White Elephant gift exchange mayhem." },
+  ];
+
+  const leaderboard = [
+    { rank: 1, name: "Sarah M.", recruits: 8, color: "text-secondary" },
+    { rank: 2, name: "Jake T.", recruits: 6, color: "text-slate-300" },
+    { rank: 3, name: "Emma L.", recruits: 5, color: "text-amber-600" },
+    { rank: 4, name: "Marcus D.", recruits: 5, color: "text-muted-foreground" },
+    { rank: 5, name: "Olivia K.", recruits: 4, color: "text-muted-foreground" },
+  ];
+
+  const timeline = [
+    { time: "18:00", event: "Arrival & Dinner" },
+    { time: "18:30", event: "Worship & Briefing" },
+    { time: "19:00", event: "Escape Room Rotations" },
+    { time: "21:00", event: "White Elephant" },
+    { time: "21:30", event: "Extraction (Pickup)" },
+  ];
+
+  const essentialInfo = [
+    { icon: Gift, title: "BRING", desc: "Wrapped gift $10-15 for White Elephant" },
+    { icon: Users, title: "WEAR", desc: "Casual, comfortable clothing" },
+    { icon: Pizza, title: "DIETARY", desc: "We've got options for everyone" },
+  ];
+
+  const faqs = [
+    {
+      q: "What if I don't know anyone?",
+      a: "Perfect! You'll be placed on a team and make new friends. Everyone starts somewhere, and our leaders are here to make sure you feel welcome from minute one.",
+    },
+    {
+      q: "What are the prizes for recruiters?",
+      a: "Top 5 recruiters get 2 extra clues for escape rooms, an extra swap in White Elephant, and Starbucks/DQ gift cards. Plus bragging rights forever.",
+    },
+    {
+      q: "How do teams work?",
+      a: "Teams of 5-6 will rotate through escape rooms together. You can form your own team or we'll pair you up. Either way, you're in for an epic night.",
+    },
+    {
+      q: "Do I really need to bring a gift?",
+      a: "Only if you want to participate in White Elephant! It's $10-15, wrapped, and can be funny, useful, or totally random. The chaos is half the fun.",
+    },
+  ];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* HERO SECTION */}
+      <section className="relative min-h-screen flex items-center justify-center tech-grid scanline">
+        <div className="absolute inset-0 bg-gradient-radial from-card/50 to-transparent"></div>
+        
+        <div className="relative z-10 text-center px-4 py-20">
+          <div className="mb-6">
+            <span className="text-primary text-sm md:text-base font-display tracking-[0.3em] uppercase">
+              Mission Briefing
+            </span>
+          </div>
+
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-extrabold text-foreground mb-4 tracking-tight">
+            COUNTDOWN
+          </h1>
+
+          <p className="text-primary text-xl md:text-2xl lg:text-3xl font-display tracking-wider mb-12">
+            HOPE HAS ARRIVED
+          </p>
+
+          <CountdownTimer />
+
+          <div className="mt-12">
+            <Button
+              size="lg"
+              onClick={() => setRsvpModalOpen(true)}
+              className="bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground font-display text-xl tracking-wider px-12 py-7 button-shine glow-cyan"
+            >
+              ACCEPT MISSION ▶
+            </Button>
+          </div>
+
+          <div className="mt-12 space-y-1 font-mono text-sm md:text-base text-muted-foreground">
+            <p>MISSION DATE: <span className="text-primary">DECEMBER 15</span></p>
+            <p>MISSION TIME: <span className="text-primary">18:00 HOURS (6:00 PM)</span></p>
+            <p>MISSION LOCATION: <span className="text-primary">ALAMO HEIGHTS BAPTIST CHURCH</span></p>
+          </div>
+
+          <div className="mt-16 animate-bounce-slow">
+            <ChevronDown className="w-8 h-8 text-primary mx-auto" />
+          </div>
+        </div>
+      </section>
+
+      {/* LIVE STATS BAR */}
+      <section className="bg-card border-t border-primary/30 py-6">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div className="animate-count-up">
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <Users className="w-8 h-8 text-primary" />
+                <span className="text-4xl font-mono font-bold text-foreground">87</span>
+              </div>
+              <p className="text-sm text-muted-foreground font-mono tracking-wide">AGENTS DEPLOYED</p>
+            </div>
+            <div className="animate-count-up" style={{ animationDelay: "0.1s" }}>
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <Clock className="w-8 h-8 text-destructive" />
+                <span className="text-4xl font-mono font-bold text-foreground">12</span>
+              </div>
+              <p className="text-sm text-muted-foreground font-mono tracking-wide">DAYS UNTIL LAUNCH</p>
+            </div>
+            <div className="animate-count-up" style={{ animationDelay: "0.2s" }}>
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <Trophy className="w-8 h-8 text-secondary" />
+                <span className="text-4xl font-mono font-bold text-foreground">5</span>
+              </div>
+              <p className="text-sm text-muted-foreground font-mono tracking-wide">LEADERS COMPETING</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MISSION BRIEFING */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-4xl md:text-5xl font-display text-center mb-4 text-primary tracking-wider">
+            YOUR MISSION BRIEF
+          </h2>
+          <div className="h-1 w-32 bg-primary mx-auto mb-16"></div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {missionCards.map((card, index) => (
+              <Card
+                key={index}
+                className="bg-card border border-primary/20 p-8 text-center hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,217,255,0.3)] hud-brackets group"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <card.icon className="w-16 h-16 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                <h3 className="text-xl font-display text-foreground mb-2 tracking-wide">{card.title}</h3>
+                <p className="text-sm text-muted-foreground">{card.description}</p>
+              </Card>
+            ))}
+          </div>
+
+          <p className="text-center text-xl text-muted-foreground mt-12 font-display tracking-wide">
+            One night. High stakes. <span className="text-primary">Zero cost.</span>
+          </p>
+        </div>
+      </section>
+
+      {/* TOP RECRUITERS LEADERBOARD */}
+      <section className="py-20 px-4 bg-card/30">
+        <div className="container mx-auto max-w-3xl">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Trophy className="w-10 h-10 text-secondary glow-gold" />
+            <h2 className="text-4xl md:text-5xl font-display text-primary tracking-wider">
+              MISSION LEADERS
+            </h2>
+          </div>
+          <div className="h-1 w-32 bg-secondary mx-auto mb-12"></div>
+
+          <Card className="bg-card border-2 border-primary/30 p-6 hud-brackets">
+            <div className="space-y-3">
+              {leaderboard.map((leader, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 bg-background/60 border-b border-primary/10 last:border-0 hover:bg-background transition-colors"
+                >
+                  <div className="flex items-center gap-4">
+                    <span className={`text-3xl font-mono font-bold ${leader.color}`}>
+                      {leader.rank}
+                    </span>
+                    <span className="text-lg font-semibold text-foreground">{leader.name}</span>
+                  </div>
+                  <span className="text-2xl font-mono text-primary font-bold">{leader.recruits}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <div className="mt-8 text-center">
+            <Button
+              onClick={() => setRsvpModalOpen(true)}
+              variant="outline"
+              className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground font-display text-lg tracking-wider px-8 py-6"
+            >
+              JOIN THE RANKS ▶
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* MISSION TIMELINE */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-4xl md:text-5xl font-display text-center mb-4 text-primary tracking-wider">
+            MISSION TIMELINE
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 font-mono">DECEMBER 15, 2025</p>
+
+          <div className="relative">
+            {/* Vertical Line */}
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary/30"></div>
+
+            <div className="space-y-8">
+              {timeline.map((item, index) => (
+                <div key={index} className="relative flex items-center gap-6">
+                  <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center z-10 glow-cyan shrink-0">
+                    <span className="font-mono font-bold text-primary-foreground text-sm">{item.time}</span>
+                  </div>
+                  <div className="flex-1 bg-card border border-primary/20 p-4 hud-brackets">
+                    <p className="text-lg font-semibold text-foreground">{item.event}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ESSENTIAL INFO */}
+      <section className="py-20 px-4 bg-card/30">
+        <div className="container mx-auto max-w-5xl">
+          <h2 className="text-4xl md:text-5xl font-display text-center mb-16 text-primary tracking-wider">
+            ESSENTIAL INFO
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {essentialInfo.map((info, index) => (
+              <Card key={index} className="bg-card border border-primary/20 p-8 text-center hover:-translate-y-1 transition-all">
+                <info.icon className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h3 className="text-xl font-display text-primary mb-2 tracking-wide">{info.title}</h3>
+                <p className="text-muted-foreground">{info.desc}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ ACCORDION */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-3xl">
+          <h2 className="text-4xl md:text-5xl font-display text-center mb-16 text-primary tracking-wider">
+            MISSION QUESTIONS
+          </h2>
+
+          <Accordion type="single" collapsible className="space-y-4">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="bg-card border border-primary/20 px-6 py-2 rounded hud-brackets"
+              >
+                <AccordionTrigger className="text-left text-lg font-semibold text-foreground hover:text-primary hover:no-underline">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground pt-2">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="py-32 px-4 bg-gradient-radial from-card to-background text-center">
+        <div className="container mx-auto max-w-4xl">
+          <p className="text-3xl md:text-4xl font-display text-foreground mb-2 tracking-wide">
+            Time is running out.
+          </p>
+          <p className="text-3xl md:text-4xl font-display text-primary mb-12 tracking-wide">
+            Accept your mission.
+          </p>
+
+          <Button
+            size="lg"
+            onClick={() => setRsvpModalOpen(true)}
+            className="bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground font-display text-2xl tracking-wider px-16 py-8 button-shine glow-cyan"
+          >
+            RSVP NOW ▶
+          </Button>
+
+          <div className="mt-8">
+            <Button variant="ghost" className="text-primary hover:text-primary/80 font-mono">
+              <Calendar className="w-5 h-5 mr-2" />
+              Add to Calendar
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-card border-t border-primary/30 py-12 px-4">
+        <div className="container mx-auto text-center space-y-6">
+          <p className="text-lg text-foreground">
+            Questions? Text us at <span className="text-primary font-mono">(210) 555-1234</span>
+          </p>
+          
+          <p className="text-sm text-muted-foreground max-w-md mx-auto">
+            Privacy: We'll only use your info for event updates
+          </p>
+        </div>
+      </footer>
+
+      <RSVPModal open={rsvpModalOpen} onOpenChange={setRsvpModalOpen} />
     </div>
   );
 };
