@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronDown, Lock, Gamepad2, Pizza, Gift, Users, Clock, Trophy, Calendar } from "lucide-react";
+import { ChevronDown, Lock, Gamepad2, Pizza, Gift, Users, Clock, Trophy, Calendar, CheckCircle2, Shirt } from "lucide-react";
 import CountdownTimer from "@/components/CountdownTimer";
 import RSVPModal from "@/components/RSVPModal";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -13,7 +13,7 @@ const Index = () => {
     { icon: Lock, title: "ESCAPE ROOM", description: "Crack codes. Solve puzzles. Beat the clock." },
     { icon: Gamepad2, title: "EPIC GAMES", description: "Compete for glory. Win exclusive prizes." },
     { icon: Pizza, title: "FUEL STATION", description: "Free food all night. Zero cost to you." },
-    { icon: Gift, title: "W.E. CHAOS", description: "White Elephant gift exchange mayhem." },
+    { icon: Gift, title: "W.E. CHAOS", description: "Swap gifts, steal prizes, pure chaos." },
   ];
 
   const leaderboard = [
@@ -25,17 +25,17 @@ const Index = () => {
   ];
 
   const timeline = [
-    { time: "18:00", event: "Arrival & Dinner" },
-    { time: "18:30", event: "Worship & Briefing" },
-    { time: "19:00", event: "Escape Room Rotations" },
-    { time: "21:00", event: "White Elephant" },
-    { time: "21:30", event: "Extraction (Pickup)" },
+    { time: "18:00", civilianTime: "6:00 PM", event: "Arrival & Dinner" },
+    { time: "18:30", civilianTime: "6:30 PM", event: "Worship & Briefing" },
+    { time: "19:00", civilianTime: "7:00 PM", event: "Escape Room Rotations" },
+    { time: "21:00", civilianTime: "9:00 PM", event: "White Elephant" },
+    { time: "21:30", civilianTime: "9:30 PM", event: "Extraction (Pickup)" },
   ];
 
   const essentialInfo = [
     { icon: Gift, title: "BRING", desc: "Wrapped gift $10-15 for White Elephant" },
-    { icon: Users, title: "WEAR", desc: "Casual, comfortable clothing" },
-    { icon: Pizza, title: "DIETARY", desc: "We've got options for everyone" },
+    { icon: Shirt, title: "WEAR", desc: "Casual, comfortable clothing" },
+    { icon: Pizza, title: "DIETARY", desc: "Pizza, chicken, and veggie options available. Have allergies? Note them in your RSVP." },
   ];
 
   const faqs = [
@@ -44,16 +44,16 @@ const Index = () => {
       a: "Perfect! You'll be placed on a team and make new friends. Everyone starts somewhere, and our leaders are here to make sure you feel welcome from minute one.",
     },
     {
-      q: "What are the prizes for recruiters?",
-      a: "Top 5 recruiters get 2 extra clues for escape rooms, an extra swap in White Elephant, and Starbucks/DQ gift cards. Plus bragging rights forever.",
-    },
-    {
       q: "How do teams work?",
       a: "Teams of 5-6 will rotate through escape rooms together. You can form your own team or we'll pair you up. Either way, you're in for an epic night.",
     },
     {
       q: "Do I really need to bring a gift?",
-      a: "Only if you want to participate in White Elephant! It's $10-15, wrapped, and can be funny, useful, or totally random. The chaos is half the fun.",
+      a: "Yes! White Elephant is one of the highlights. Bring a wrapped gift ($10-15) that's funny, useful, or awesome. Good ideas: Bluetooth speaker, snack basket, funny mug, cozy blanket, trendy socks, portable charger, gift cards. Bad ideas: Used items, inside jokes nobody gets, anything that could offend.",
+    },
+    {
+      q: "What if I don't make top 5?",
+      a: "Everyone who invites at least 1 friend gets early access to team selection! Plus, recruiting friends means you get to experience the night with YOUR crew. That's the real prize.",
     },
   ];
 
@@ -88,6 +88,16 @@ const Index = () => {
             >
               ACCEPT MISSION ▶
             </Button>
+            
+            <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <span>87 students already deployed</span>
+            </div>
+            
+            <p className="mt-6 text-muted-foreground text-sm">
+              Never been? No problem.<br />
+              New students welcome. Friends encouraged.
+            </p>
           </div>
 
           <div className="mt-12 space-y-1 font-mono text-sm md:text-base text-muted-foreground">
@@ -96,7 +106,7 @@ const Index = () => {
             <p>MISSION LOCATION: <span className="text-primary">ALAMO HEIGHTS BAPTIST CHURCH</span></p>
           </div>
 
-          <div className="mt-16 animate-bounce-slow">
+          <div className="mt-16 animate-bounce">
             <ChevronDown className="w-8 h-8 text-primary mx-auto" />
           </div>
         </div>
@@ -125,7 +135,7 @@ const Index = () => {
                 <Trophy className="w-8 h-8 text-secondary" />
                 <span className="text-4xl font-mono font-bold text-foreground">5</span>
               </div>
-              <p className="text-sm text-muted-foreground font-mono tracking-wide">LEADERS COMPETING</p>
+              <p className="text-sm text-muted-foreground font-mono tracking-wide">PRIZE SPOTS LEFT</p>
             </div>
           </div>
         </div>
@@ -153,8 +163,8 @@ const Index = () => {
             ))}
           </div>
 
-          <p className="text-center text-xl text-muted-foreground mt-12 font-display tracking-wide">
-            One night. High stakes. <span className="text-primary">Zero cost.</span>
+          <p className="text-center text-2xl md:text-3xl text-foreground mt-12 font-display tracking-wide">
+            One night. High stakes. <span className="text-secondary">Zero cost.</span>
           </p>
         </div>
       </section>
@@ -195,9 +205,64 @@ const Index = () => {
               variant="outline"
               className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground font-display text-lg tracking-wider px-8 py-6"
             >
-              JOIN THE RANKS ▶
+              RSVP TO COMPETE ▶
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* RECRUIT & WIN PRIZES */}
+      <section className="py-20 px-4 bg-card/30">
+        <div className="container mx-auto max-w-3xl">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Trophy className="w-10 h-10 text-secondary glow-gold" />
+            <h2 className="text-4xl md:text-5xl font-display text-secondary tracking-wider">
+              RECRUIT & WIN
+            </h2>
+          </div>
+          <div className="h-1 w-32 bg-secondary mx-auto mb-12"></div>
+
+          <Card className="bg-card border-2 border-secondary/50 p-8 hud-brackets glow-gold">
+            <p className="text-center text-xl text-foreground mb-6 font-display">
+              Top 5 recruiters unlock exclusive perks:
+            </p>
+            
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-6 h-6 text-primary shrink-0 mt-1" />
+                <p className="text-lg text-foreground">
+                  <span className="font-semibold">2 Bonus Clues</span> during Escape Room
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-6 h-6 text-primary shrink-0 mt-1" />
+                <p className="text-lg text-foreground">
+                  <span className="font-semibold">Extra Swap</span> in White Elephant
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-6 h-6 text-primary shrink-0 mt-1" />
+                <p className="text-lg text-foreground">
+                  <span className="font-semibold">$25 Starbucks or Dairy Queen</span> Gift Card
+                </p>
+              </div>
+            </div>
+
+            <p className="text-center text-muted-foreground mb-6">
+              Current leader: <span className="text-secondary font-semibold">Sarah M.</span> with 8 invites.<br />
+              Think you can beat her?
+            </p>
+
+            <div className="text-center">
+              <Button
+                onClick={() => setRsvpModalOpen(true)}
+                variant="outline"
+                className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground font-display text-lg tracking-wider px-8 py-6"
+              >
+                START RECRUITING ▶
+              </Button>
+            </div>
+          </Card>
         </div>
       </section>
 
@@ -216,8 +281,9 @@ const Index = () => {
             <div className="space-y-8">
               {timeline.map((item, index) => (
                 <div key={index} className="relative flex items-center gap-6">
-                  <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center z-10 glow-cyan shrink-0">
-                    <span className="font-mono font-bold text-primary-foreground text-sm">{item.time}</span>
+                  <div className="w-20 h-20 rounded-full bg-primary flex flex-col items-center justify-center z-10 glow-cyan shrink-0">
+                    <span className="font-mono font-bold text-primary-foreground text-base">{item.time}</span>
+                    <span className="font-mono text-primary-foreground/70 text-xs">{item.civilianTime}</span>
                   </div>
                   <div className="flex-1 bg-card border border-primary/20 p-4 hud-brackets">
                     <p className="text-lg font-semibold text-foreground">{item.event}</p>
@@ -292,8 +358,8 @@ const Index = () => {
             RSVP NOW ▶
           </Button>
 
-          <div className="mt-8">
-            <Button variant="ghost" className="text-primary hover:text-primary/80 font-mono">
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <Button variant="ghost" className="text-primary hover:text-primary/80 font-mono text-lg">
               <Calendar className="w-5 h-5 mr-2" />
               Add to Calendar
             </Button>
@@ -304,6 +370,20 @@ const Index = () => {
       {/* FOOTER */}
       <footer className="bg-card border-t border-primary/30 py-12 px-4">
         <div className="container mx-auto text-center space-y-6">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-primary font-mono mb-6">
+            <a href="#" className="hover:text-primary/80 transition-colors underline-offset-4 hover:underline">
+              📋 Parent Information
+            </a>
+            <span className="text-muted-foreground">|</span>
+            <a href="#" className="hover:text-primary/80 transition-colors underline-offset-4 hover:underline">
+              🎄 What to Expect
+            </a>
+            <span className="text-muted-foreground">|</span>
+            <a href="#faq" className="hover:text-primary/80 transition-colors underline-offset-4 hover:underline">
+              ❓ FAQ
+            </a>
+          </div>
+          
           <p className="text-lg text-foreground">
             Questions? Text us at <span className="text-primary font-mono">(210) 555-1234</span>
           </p>
