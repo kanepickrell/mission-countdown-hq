@@ -193,9 +193,9 @@ const Index = () => {
           </div>
 
           <div className="mt-12 space-y-1 font-mono text-sm md:text-base text-muted-foreground">
-            <p>MISSION DATE: <span className="text-primary">DECEMBER 15</span></p>
-            <p>MISSION TIME: <span className="text-primary">18:00 HOURS (6:00 PM)</span></p>
-            <p>MISSION LOCATION: <span className="text-primary">ALAMO HEIGHTS BAPTIST CHURCH</span></p>
+            <p>DATE: <span className="text-primary">DECEMBER 15</span></p>
+            <p>TIME: <span className="text-primary">18:00 HOURS (6:00 PM)</span></p>
+            <p>LOCATION: <span className="text-primary">ALAMO HEIGHTS BAPTIST CHURCH <br></br>6501 Broadway, Alamo Heights, TX 78209</span></p>
           </div>
 
           <div className="mt-16 animate-bounce">
@@ -233,7 +233,7 @@ const Index = () => {
                   {Math.max(0, 5 - leaderboard.filter(u => u.recruit_count > 0).length)}
                 </span>
               </div>
-              <p className="text-sm text-muted-foreground font-mono tracking-wide">PRIZE SPOTS LEFT</p>
+              <p className="text-sm text-muted-foreground font-mono tracking-wide">VIP PRIZES</p>
             </div>
           </div>
         </div>
@@ -370,7 +370,7 @@ const Index = () => {
                 variant="outline"
                 className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground font-display text-lg tracking-wider px-8 py-6"
               >
-                START RECRUITING ▶
+                SIGN UP & ACTIVATE RECRUITING LINK ▶
               </Button>
             </div>
           </Card>
