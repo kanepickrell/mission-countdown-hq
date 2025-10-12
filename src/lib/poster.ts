@@ -61,7 +61,8 @@ export async function buildAndDownloadPoster({
     ctx.fill();
 
     // 3) Generate QR canvas (black on white = most scannable)
-    const inviteUrl = `${window.location.origin}?ref=${encodeURIComponent(referralCode)}`;
+    // const inviteUrl = `${window.location.origin}?ref=${encodeURIComponent(referralCode)}`;
+    const inviteUrl = `https://mission-countdown-hq.vercel.app?ref=${encodeURIComponent(referralCode)}`;
     const qrCanvas = document.createElement("canvas");
     await QRCode.toCanvas(qrCanvas, inviteUrl, {
         width: qrW,

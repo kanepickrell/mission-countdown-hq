@@ -60,8 +60,8 @@ export async function createRSVP(data: {
     lastName: string;
     contact: string;
     grade: string;
-    referrer?: string;
-    dietary?: string;
+    referrer: string;
+    dietary: string;
     referredByCode?: string;
 }) {
     const referralCode = generateReferralCode(data.firstName, data.lastName);

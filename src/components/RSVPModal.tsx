@@ -33,7 +33,8 @@ const RSVPModal = ({ open, onOpenChange, referralCode }: RSVPModalProps) => {
   // Generate QR code when user is created
   useEffect(() => {
     if (newUser) {
-      const inviteUrl = `${window.location.origin}?ref=${newUser.referral_code}`;
+      // const inviteUrl = `${window.location.origin}?ref=${newUser.referral_code}`;
+      const inviteUrl = `https://mission-countdown-hq.vercel.app?ref=${newUser.referral_code}`;
       QRCode.toDataURL(inviteUrl, {
         width: 300,
         margin: 2,
