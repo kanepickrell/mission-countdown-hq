@@ -43,7 +43,7 @@ const TopSecretStrip = ({ position = "top" }: { position?: "top" | "bottom" }) =
         <span className="rotate-[-6deg] border-2 border-destructive-foreground/60 text-destructive-foreground/70
                           px-3 py-1 font-display text-xs md:text-sm tracking-[0.25em]
                           bg-destructive/10 backdrop-blur-[1px]">
-          NOFORN // EYES ONLY
+
         </span>
       </span>
     </div>
