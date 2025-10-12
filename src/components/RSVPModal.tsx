@@ -130,27 +130,24 @@ const RSVPModal = ({ open, onOpenChange, referralCode }: RSVPModalProps) => {
                     Every signup through your code increases your leaderboard rank.
                   </p>
 
-                  {/* Existing QR download */}
-                  <Button
+                  {/*  QR download */}
+                  {/* <Button
                     onClick={downloadQRCode}
                     variant="outline"
                     className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download QR Code
-                  </Button>
+                  </Button> */}
 
-                  {/* NEW: Poster download with user-specific QR */}
+                  // where you call it in RSVPModal success UI
                   <Button
                     onClick={() =>
                       buildAndDownloadPoster({
                         referralCode: newUser.referral_code,
-                        // optional overrides if you need to fine-tune placement/sizing:
-                        posterUrl: "/countdown_base.png", // your base poster (no QR) in /public
-                        qrSize: 420,                       // adjust once to fit the box
-                        qrX: 84,                           // left offset (px)
-                        qrY: 1420,                         // top offset (px)
-                        fileName: `countdown-invite-${newUser.referral_code}.png`,
+                        xPct: 9.2,
+                        yPct: 84.0,
+                        wPct: 22.5,
                       })
                     }
                     variant="outline"
@@ -159,6 +156,7 @@ const RSVPModal = ({ open, onOpenChange, referralCode }: RSVPModalProps) => {
                     <Download className="w-4 h-4 mr-2" />
                     Download Share Poster (PNG)
                   </Button>
+
                 </div>
               )}
 
