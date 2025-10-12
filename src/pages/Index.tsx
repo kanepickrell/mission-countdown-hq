@@ -469,10 +469,6 @@ const Index = () => {
           </Button>
 
           <div className="mt-8 flex flex-col items-center gap-4">
-            <Button variant="ghost" className="text-primary hover:text-primary/80 font-mono text-lg">
-              <Calendar className="w-5 h-5 mr-2" />
-              Add to Calendar
-            </Button>
           </div>
         </div>
       </section>
@@ -480,22 +476,9 @@ const Index = () => {
       {/* FOOTER */}
       <footer className="bg-card border-t border-primary/30 py-12 px-4">
         <div className="container mx-auto text-center space-y-6">
-          <div className="flex flex-wrap items-center justify-center gap-6 text-primary font-mono mb-6">
-            <a href="#" className="hover:text-primary/80 transition-colors underline-offset-4 hover:underline">
-              📋 Parent Information
-            </a>
-            <span className="text-muted-foreground">|</span>
-            <a href="#" className="hover:text-primary/80 transition-colors underline-offset-4 hover:underline">
-              🎄 What to Expect
-            </a>
-            <span className="text-muted-foreground">|</span>
-            <a href="#faq" className="hover:text-primary/80 transition-colors underline-offset-4 hover:underline">
-              ❓ FAQ
-            </a>
-          </div>
 
           <p className="text-lg text-foreground">
-            Questions? Text us at <span className="text-primary font-mono">(210) 555-1234</span>
+            Questions? Text us at <span className="text-primary font-mono">(937) 831-6954</span>
           </p>
 
           <p className="text-sm text-muted-foreground max-w-md mx-auto">
