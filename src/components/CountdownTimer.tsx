@@ -8,8 +8,8 @@ interface TimeRemaining {
 }
 
 const CountdownTimer = () => {
-  const eventDate = new Date("2025-12-15T18:00:00");
-  
+  const eventDate = new Date("2025-12-06T17:30:00");
+
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining>({
     days: 0,
     hours: 0,
@@ -60,7 +60,7 @@ const CountdownTimer = () => {
             stroke="hsl(187 100% 50% / 0.1)"
             strokeWidth="1"
           />
-          
+
           {/* Tick Marks */}
           {[...Array(60)].map((_, i) => {
             const angle = (i * 6) * (Math.PI / 180);
@@ -71,7 +71,7 @@ const CountdownTimer = () => {
             const y1 = 100 + innerRadius * Math.sin(angle);
             const x2 = 100 + outerRadius * Math.cos(angle);
             const y2 = 100 + outerRadius * Math.sin(angle);
-            
+
             return (
               <line
                 key={i}
@@ -84,7 +84,7 @@ const CountdownTimer = () => {
               />
             );
           })}
-          
+
           {/* Glowing Inner Ring */}
           <circle
             cx="100"
