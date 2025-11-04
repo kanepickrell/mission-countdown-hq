@@ -24,11 +24,57 @@ export interface User {
     created_at: string;
 }
 
-// Generate unique referral code
-export function generateReferralCode(firstName: string, lastName: string): string {
+// Generate unique referral code with retry logic
+export async function generateUniqueReferralCode(firstName: string, lastName: string): Promise<string> {
     const name = `${firstName}${lastName}`.toUpperCase().replace(/[^A-Z]/g, '');
-    const randomNum = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
-    return `${name.substring(0, 6)}${randomNum}`;
+    const baseName = name.substring(0, 6).padEnd(6, 'X'); // Ensure 6 chars
+
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    while (attempts < maxAttempts) {
+        const randomNum = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
+        const code = `${baseName}${randomNum}`;
+
+        // Check if code exists
+        const { data, error } = await supabase
+            .from('users')
+            .select('referral_code')
+            .eq('referral_code', code)
+            .maybeSingle();
+
+        if (error && error.code !== 'PGRST116') {
+            console.error('Error checking referral code:', error);
+            attempts++;
+            continue;
+        }
+
+        if (!data) {
+            return code;
+        }
+
+        attempts++;
+    }
+
+    // Fallback to timestamp-based code if all attempts fail
+    const timestamp = Date.now().toString().slice(-6);
+    return `${baseName.substring(0, 4)}${timestamp}`;
+}
+
+// Check if contact already exists
+export async function checkDuplicateContact(contact: string): Promise<boolean> {
+    const { data, error } = await supabase
+        .from('users')
+        .select('id')
+        .eq('contact', contact.toLowerCase().trim())
+        .maybeSingle();
+
+    if (error && error.code !== 'PGRST116') {
+        console.error('Error checking duplicate:', error);
+        return false;
+    }
+
+    return !!data;
 }
 
 // Get leaderboard
@@ -54,7 +100,7 @@ export async function getTotalUsers() {
     return count || 0;
 }
 
-// Create new RSVP
+// Create new RSVP with validation
 export async function createRSVP(data: {
     firstName: string;
     lastName: string;
@@ -64,25 +110,58 @@ export async function createRSVP(data: {
     dietary: string;
     referredByCode?: string;
 }) {
-    const referralCode = generateReferralCode(data.firstName, data.lastName);
+    // Normalize contact
+    const normalizedContact = data.contact.toLowerCase().trim();
+
+    // Check for duplicate
+    const isDuplicate = await checkDuplicateContact(normalizedContact);
+    if (isDuplicate) {
+        throw new Error('DUPLICATE_CONTACT');
+    }
+
+    // Validate grade is not empty
+    if (!data.grade || data.grade === 'EMPTY' || data.grade.trim() === '') {
+        throw new Error('INVALID_GRADE');
+    }
+
+    // Generate unique referral code
+    const referralCode = await generateUniqueReferralCode(data.firstName, data.lastName);
+
+    // Prevent self-referral (if somehow they got their own code)
+    if (data.referredByCode === referralCode) {
+        throw new Error('SELF_REFERRAL');
+    }
+
+    // Validate referred_by_code exists if provided
+    if (data.referredByCode) {
+        const referrer = await getUserByReferralCode(data.referredByCode);
+        if (!referrer) {
+            console.warn('Invalid referral code:', data.referredByCode);
+            // Continue without referral instead of failing
+            data.referredByCode = undefined;
+        }
+    }
 
     // Insert new user
     const { data: newUser, error } = await supabase
         .from('users')
         .insert({
-            first_name: data.firstName,
-            last_name: data.lastName,
-            contact: data.contact,
-            grade: data.grade,
-            referrer_name: data.referrer || null,
-            dietary_restrictions: data.dietary || null,
+            first_name: data.firstName.trim(),
+            last_name: data.lastName.trim(),
+            contact: normalizedContact,
+            grade: data.grade.trim(),
+            referrer_name: data.referrer?.trim() || null,
+            dietary_restrictions: data.dietary?.trim() || null,
             referral_code: referralCode,
             referred_by_code: data.referredByCode || null,
         })
         .select()
         .single();
 
-    if (error) throw error;
+    if (error) {
+        console.error('Error creating RSVP:', error);
+        throw error;
+    }
 
     // If they were referred, increment the referrer's count
     if (data.referredByCode) {
@@ -90,7 +169,10 @@ export async function createRSVP(data: {
             ref_code: data.referredByCode,
         });
 
-        if (updateError) console.error('Error updating recruit count:', updateError);
+        if (updateError) {
+            console.error('Error updating recruit count:', updateError);
+            // Don't throw - the user is still created
+        }
     }
 
     return newUser as User;
@@ -101,9 +183,13 @@ export async function getUserByReferralCode(code: string) {
     const { data, error } = await supabase
         .from('users')
         .select('*')
-        .eq('referral_code', code)
-        .single();
+        .eq('referral_code', code.toUpperCase().trim())
+        .maybeSingle();
 
-    if (error) return null;
-    return data as User;
+    if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching user:', error);
+        return null;
+    }
+
+    return data as User | null;
 }

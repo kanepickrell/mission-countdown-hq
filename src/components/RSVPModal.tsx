@@ -33,16 +33,26 @@ const RSVPModal = ({ open, onOpenChange, referralCode }: RSVPModalProps) => {
   // Generate QR code when user is created
   useEffect(() => {
     if (newUser) {
-      // const inviteUrl = `${window.location.origin}?ref=${newUser.referral_code}`;
       const inviteUrl = `https://mission-countdown-hq.vercel.app?ref=${newUser.referral_code}`;
       QRCode.toDataURL(inviteUrl, {
-        width: 300,
+        width: 512, // Bigger = easier to scan
         margin: 2,
+        errorCorrectionLevel: 'H', // High error correction
         color: {
-          dark: "#00d9ff",
-          light: "#000000",
+          dark: "#000000",
+          light: "#FFFFFF",
         },
-      }).then(setQrCodeUrl);
+      }).then((url) => {
+        setQrCodeUrl(url);
+
+        // AUTO-DOWNLOAD after a brief delay
+        setTimeout(() => {
+          const link = document.createElement("a");
+          link.download = `invite-${newUser.referral_code}.png`;
+          link.href = url;
+          link.click();
+        }, 500);
+      });
     }
   }, [newUser]);
 
@@ -66,11 +76,27 @@ const RSVPModal = ({ open, onOpenChange, referralCode }: RSVPModalProps) => {
       toast.success("Mission Accepted! 🎯", {
         description: "Check your email for mission details.",
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("RSVP error:", error);
-      toast.error("Mission Failed", {
-        description: "Something went wrong. Please try again.",
-      });
+
+      // Handle specific errors
+      if (error.message === 'DUPLICATE_CONTACT') {
+        toast.error("Already Registered", {
+          description: "This phone/email is already signed up!",
+        });
+      } else if (error.message === 'INVALID_GRADE') {
+        toast.error("Grade Required", {
+          description: "Please select your grade level.",
+        });
+      } else if (error.message === 'SELF_REFERRAL') {
+        toast.error("Invalid Referral", {
+          description: "You can't refer yourself!",
+        });
+      } else {
+        toast.error("Mission Failed", {
+          description: "Something went wrong. Please try again.",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -79,7 +105,7 @@ const RSVPModal = ({ open, onOpenChange, referralCode }: RSVPModalProps) => {
   const downloadQRCode = () => {
     if (!qrCodeUrl) return;
     const link = document.createElement("a");
-    link.download = `countdown-invite-${newUser?.referral_code}.png`;
+    link.download = `invite-${newUser?.referral_code}.png`;
     link.href = qrCodeUrl;
     link.click();
   };
@@ -125,48 +151,32 @@ const RSVPModal = ({ open, onOpenChange, referralCode }: RSVPModalProps) => {
               </h3>
               {qrCodeUrl && (
                 <div className="flex flex-col items-center gap-4">
-                  <img src={qrCodeUrl} alt="Your invite QR code" className="w-64 h-64 rounded" />
+                  <img
+                    src={qrCodeUrl}
+                    alt="Your invite QR code"
+                    className="w-64 h-64 rounded border-2 border-primary/20"
+                  />
                   <p className="text-sm text-center text-muted-foreground">
-                    Share this code to recruit your team!<br />
-                    Every signup through your code increases your leaderboard rank.
+                    QR code downloaded automatically!<br />
+                    Share it to recruit your team and climb the leaderboard.
                   </p>
 
-                  {/*  QR download */}
-                  {/* <Button
+                  <Button
                     onClick={downloadQRCode}
                     variant="outline"
-                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground w-full"
                   >
                     <Download className="w-4 h-4 mr-2" />
-                    Download QR Code
-                  </Button> */}
-
-                  // where you call it in RSVPModal success UI
-                  <Button
-                    onClick={() =>
-                      buildAndDownloadPoster({
-                        referralCode: newUser.referral_code,
-                        xPct: 9.2,
-                        yPct: 84.0,
-                        wPct: 22.5,
-                      })
-                    }
-                    variant="outline"
-                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download Share Poster (PNG)
+                    Download Again
                   </Button>
-
                 </div>
               )}
-
             </div>
 
             <div className="bg-background/60 p-4 rounded-lg border border-secondary/20">
               <p className="text-sm text-center text-foreground">
-                <span className="text-secondary font-semibold">Want to be in the Top 5?</span><br />
-                Share your QR code on Instagram, Snapchat, or text it to friends!
+                <span className="text-secondary font-semibold">How to share:</span><br />
+                Text the QR image, post on Instagram story, or AirDrop to friends!
               </p>
             </div>
 

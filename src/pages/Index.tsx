@@ -99,9 +99,9 @@ const Index = () => {
   ];
 
   const timeline = [
-    { time: "18:00", civilianTime: "6:00 PM", event: "Arrival & Dinner" },
-    { time: "18:30", civilianTime: "6:30 PM", event: "Worship & Briefing" },
-    { time: "19:00", civilianTime: "7:00 PM", event: "Escape Room Rotations + Mini Games" },
+    { time: "17:30", civilianTime: "5:30 PM", event: "Infiltration & Dinner" },
+    { time: "18:00", civilianTime: "6:00 PM", event: "Worship & Briefing" },
+    { time: "18:30", civilianTime: "6:30 PM", event: "Escape Room Rotations + Mini Games" },
     { time: "21:15", civilianTime: "9:15 PM", event: "White Elephant" },
     { time: "22:00", civilianTime: "10:00 PM", event: "Extraction (Pickup)" },
   ];
@@ -221,7 +221,7 @@ const Index = () => {
               <div className="flex items-center justify-center gap-3 mb-2">
                 <Clock className="w-8 h-8 text-destructive" />
                 <span className="text-4xl font-mono font-bold text-foreground">
-                  {Math.ceil((new Date("2025-12-15").getTime() - Date.now()) / (1000 * 60 * 60 * 24))}
+                  {Math.ceil((new Date("2025-12-6").getTime() - Date.now()) / (1000 * 60 * 60 * 24))}
                 </span>
               </div>
               <p className="text-sm text-muted-foreground font-mono tracking-wide">DAYS UNTIL LAUNCH</p>
