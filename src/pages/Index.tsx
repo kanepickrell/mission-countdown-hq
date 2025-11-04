@@ -158,7 +158,7 @@ const Index = () => {
 
           <div className="mb-6">
             <span className="text-primary text-s md:text-base font-display tracking-[0.3em] uppercase">
-              X-MAS Mission Briefing
+              Christmas Mission Briefing
             </span>
           </div>
 
