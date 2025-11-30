@@ -8,7 +8,7 @@ interface TimeRemaining {
 }
 
 const CountdownTimer = () => {
-  const eventDate = new Date("2025-12-06T17:30:00");
+  const eventDate = new Date("2025-12-13T17:30:00");
 
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining>({
     days: 0,
