@@ -193,7 +193,7 @@ const Index = () => {
           </div>
 
           <div className="mt-12 space-y-1 font-mono text-sm md:text-base text-muted-foreground">
-            <p>DATE: <span className="text-primary">SATURDAY, DECEMBER 6th</span></p>
+            <p>DATE: <span className="text-primary">SATURDAY, DECEMBER 13th</span></p>
             <p>TIME: <span className="text-primary">17:30 HOURS (5:30 PM)</span></p>
             <p>LOCATION: <span className="text-primary">ALAMO HEIGHTS BAPTIST CHURCH <br></br>6501 Broadway, Alamo Heights, TX 78209</span></p>
           </div>
@@ -383,7 +383,7 @@ const Index = () => {
           <h2 className="text-4xl md:text-5xl font-display text-center mb-4 text-primary tracking-wider">
             MISSION TIMELINE
           </h2>
-          <p className="text-center text-muted-foreground mb-12 font-mono">DECEMBER 6th, 2025</p>
+          <p className="text-center text-muted-foreground mb-12 font-mono">DECEMBER 13th, 2025</p>
 
           <div className="relative">
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary/30"></div>
