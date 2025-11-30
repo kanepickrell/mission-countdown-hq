@@ -221,7 +221,7 @@ const Index = () => {
               <div className="flex items-center justify-center gap-3 mb-2">
                 <Clock className="w-8 h-8 text-destructive" />
                 <span className="text-4xl font-mono font-bold text-foreground">
-                  {Math.ceil((new Date("2025-12-6").getTime() - Date.now()) / (1000 * 60 * 60 * 24))}
+                  {Math.ceil((new Date("2025-12-13").getTime() - Date.now()) / (1000 * 60 * 60 * 24))}
                 </span>
               </div>
               <p className="text-sm text-muted-foreground font-mono tracking-wide">DAYS UNTIL LAUNCH</p>
